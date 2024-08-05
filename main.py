@@ -45,15 +45,15 @@ async def aes_scheduler(ctx, schedule, hours, minutes, start_time):
              
         else:
             if raid_hours <= 1 and raid_minutes == 0:
-                await ctx.send(f'Raid starts in {raid_hours} hour and {raid_minutes} minute!! \n{toram_role}\n{toram_role}\n{toram_role}')
+                await ctx.send(f'Raid starts in {raid_hours} hour and {raid_minutes} minute!! \n{MMK_TORAM_ROLE}\n{MMK_TORAM_ROLE}\n{MMK_TORAM_ROLE}')
             if raid_hours <= 1 and raid_minutes > 0:
-                await ctx.send(f'Raid starts in {raid_hours} hour and {raid_minutes} minutes!! \n{toram_role}\n{toram_role}\n{toram_role}')
+                await ctx.send(f'Raid starts in {raid_hours} hour and {raid_minutes} minutes!! \n{MMK_TORAM_ROLE}\n{MMK_TORAM_ROLE}\n{MMK_TORAM_ROLE}')
 
             if raid_hours > 1 and raid_minutes == 0:
-                await ctx.send(f'Raid starts in {raid_hours} hours and {raid_minutes} minute!! \n{toram_role}\n{toram_role}\n{toram_role}')
+                await ctx.send(f'Raid starts in {raid_hours} hours and {raid_minutes} minute!! \n{MMK_TORAM_ROLE}\n{MMK_TORAM_ROLE}\n{MMK_TORAM_ROLE}')
                 
             if raid_hours > 1 and raid_minutes > 0:
-                await ctx.send(f'Raid starts in {raid_hours} hours and {raid_minutes} minutes!! \n{toram_role}\n{toram_role}\n{toram_role}')
+                await ctx.send(f'Raid starts in {raid_hours} hours and {raid_minutes} minutes!! \n{MMK_TORAM_ROLE}\n{MMK_TORAM_ROLE}\n{MMK_TORAM_ROLE}')
 
     time_list = []
     
@@ -89,9 +89,9 @@ async def raid(ctx, hours:int, minutes: int ):
     start_time = datetime.datetime.now()
     schedule = start_time + datetime.timedelta(hours=hours, minutes=minutes)
     if hours <= 1:
-        await ctx.send(f'Raid starts in {hours} hour and {minutes} minutes!! \n{toram_role}\n{toram_role}\n{toram_role}')
+        await ctx.send(f'Raid starts in {hours} hour and {minutes} minutes!! \n{MMK_TORAM_ROLE}\n{MMK_TORAM_ROLE}\n{MMK_TORAM_ROLE}')
     else:
-        await ctx.send(f"Raid starts in {hours} hours and {minutes} minutes!! \n{toram_role}\n{toram_role}\n{toram_role}")
+        await ctx.send(f"Raid starts in {hours} hours and {minutes} minutes!! \n{MMK_TORAM_ROLE}\n{MMK_TORAM_ROLE}\n{MMK_TORAM_ROLE}")
     
     await aes_scheduler(ctx, schedule, hours, minutes, start_time)
 
