@@ -13,12 +13,11 @@ from apscheduler.schedulers.background import BackgroundScheduler, BlockingSched
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 import os
 from dotenv import load_dotenv
-
 load_dotenv()
-BOT_TOKEN = os.getenv("TOKEN") #discord BOT token
+BOT_TOKEN = os.getenv("TOKEN") #BOT TOKEN
 
 TENOR_KEY = os.getenv("TENOR_API_KEY") #TENOR API KEY
-print(BOT_TOKEN)
+
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -119,7 +118,7 @@ async def rawr(ctx):
     await ctx.send(f'<@{user_mentioned.id}>'* 3)
 
 @bot.command()
-async def test(ctx):
+async def permission(ctx):
     role = discord.utils.get(ctx.author.roles, name="toram") # Get the role
     if role in ctx.author.roles: # Check if the author has the role
         await ctx.send("you have the permission")
@@ -127,13 +126,6 @@ async def test(ctx):
     else:
         await ctx.send("You do not have the permission.")
 
-
-
-@bot.command()
-async def love(ctx):
-
-    
-    await ctx.send(f"I LOVE SOPING SO MUSH")
 
 
 @bot.command() 
@@ -158,34 +150,38 @@ async def gif(ctx, *message)->str : #type !gif (ur message) sends a gif
 
 @bot.command() 
 async def leveling(ctx, lvl: int):
-    # Fetch the leveling data
-    req = requests.get(f"https://coryn.club/leveling.php?lv={lvl}")
-    soup = bs(req.text, "html.parser")
-    result = []
+    try:
+        # Fetch the leveling data
+        req = requests.get(f"https://coryn.club/leveling.php?lv={lvl}")
+        soup = bs(req.text, "html.parser")
+        result = []
 
-    # Parse the HTML to extract leveling data
-    ror = soup.find("div", class_='table-grid item-leveling')
+        # Parse the HTML to extract leveling data
+        ror = soup.find("div", class_='table-grid item-leveling')
 
-    for data in ror.find_all("div", class_="level-row"):
-        level = data.find("div", class_="level-col-1").text.strip()
-        boss_name = data.find("div", class_="level-col-2").text.strip()
-        exp = data.find("div", class_="level-col-3").text.strip()
+        for data in ror.find_all("div", class_="level-row"):
+            level = data.find("div", class_="level-col-1").text.strip()
+            boss_name = data.find("div", class_="level-col-2").text.strip()
+            exp = data.find("div", class_="level-col-3").text.strip()
 
-        result.append({"level": level, "boss": boss_name, "exp": exp})
-    
-    # Create an embed object
-    embed = discord.Embed(title=f"Leveling Information for Level {lvl}", color=discord.Color.blue())
-    
-    # Add each result to the embed
-    for item in result[0:6]:  # Limiting to the first 6 results
-        embed.add_field(
-            name=f"Level: {item['level']}",
-            value=f"**Boss Name:** {item['boss']}\n**EXP:** {item['exp']}",
-            inline=False
-        )
+            result.append({"level": level, "boss": boss_name, "exp": exp})
+        
+        # Create an embed object
+        embed = discord.Embed(title=f"Leveling Information for Level {lvl}", color=discord.Color.blue())
+        
+        # Add each result to the embed
+        for item in result[0:6]:  # Limiting to the first 6 results
+            embed.add_field(
+                name=f"Level: {item['level']}",
+                value=f"**Boss Name:** {item['boss']}\n**EXP:** {item['exp']}",
+                inline=False
+            )
 
-    # Send the embed in the channel
-    await ctx.send(embed=embed)
+        # Send the embed in the channel
+        await ctx.send(embed=embed)
+    except requests.exceptions.RequestException as lvl_error:
+        await ctx.send("An error occurred while trying to retrieve the lvl. Please try again later.")
+        print(lvl_error)
 
 
 
@@ -235,17 +231,9 @@ async def item(ctx, *item) ->str:
 
             await ctx.send(embed=embed)
             
-    except requests.exceptions.RequestException as e:
+    except requests.exceptions.RequestException as item_error:
         await ctx.send("An error occurred while trying to retrieve the item. Please try again later.")
-        print(e)
-
-
-
-
-
-@bot.command()
-async def test2(ctx):
-    await ctx.send("TEST SUCCESS!")
+        print(item_error)
 
 
 
