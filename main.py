@@ -18,7 +18,7 @@ load_dotenv()
 BOT_TOKEN = os.getenv("TOKEN") #discord BOT token
 
 TENOR_KEY = os.getenv("TENOR_API_KEY") #TENOR API KEY
-
+print(BOT_TOKEN)
 
 intents = discord.Intents.default()
 intents.message_content = True
