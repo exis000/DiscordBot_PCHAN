@@ -8,6 +8,8 @@ import json
 import random
 from bs4 import BeautifulSoup as bs
 import urllib.parse
+from coryn import CorynClient
+from coryn.types import Items
 
 from apscheduler.schedulers.background import BackgroundScheduler, BlockingScheduler
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
@@ -28,6 +30,32 @@ MMK_TORAM_ROLE = os.getenv("TORAM_ROLE")# TORAM ROLE CHANNEL IN MISCHIEF MAKERS 
 
 guild_list = {}
 scheduler = AsyncIOScheduler()
+
+
+# Base URL for the images
+BASE_URL = "https://coryn.club/"
+
+# Create a bot instance (assuming you're using discord.py)
+
+# Command to fetch item and send the image
+@bot.command()
+async def get_image(ctx, *item_name):
+    arguments = ' '.join(item_name)
+    async with CorynClient() as cc:
+        async for item in cc.get_items(item_type=Items.ALL, name=arguments):
+            # Access the image path from the dictionary
+            image_path = item['appearance']['item_image']
+            print(item_name)
+
+            if image_path:
+                # Form the full URL
+                full_image_url = BASE_URL + image_path.replace(" ", "%20")
+                print(full_image_url)
+
+
+                # Send the URL to Discord, Discord will automatically display the image
+                await ctx.send(full_image_url)
+                break
 
 async def aes_scheduler(ctx, schedule, hours, minutes, start_time):
     async def job(ctx = ctx):
@@ -237,7 +265,9 @@ async def item(ctx, *item) ->str:
 
 
 
-
+@bot.command()
+async def blamerai(ctx) ->str:
+    await ctx.send(f"\nblame <@711370054758826135> \nblame <@711370054758826135> \nblame <@711370054758826135> \nblame <@711370054758826135> \nblame <@711370054758826135> \nblame <@711370054758826135> \nblame <@711370054758826135> \nblame <@711370054758826135>")
 
 
 
